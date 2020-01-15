@@ -10,4 +10,6 @@ if [ ! -d "$dir" ]; then
 fi
 
 whoami
-./genTick $interval | ./genSensorData 1>> $dir/$logs 2>> $dir/$errors
+./genTick $interval | ./genSensorData 2>> $dir/$errors | stdbuf -oL cut -d : -f1,2,3,6 1>> $dir/$logs
+
+#1>> $dir/$logs 2>> $dir/$errors
