@@ -1,37 +1,47 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
+#include <stdlib.h>
+
 
 int main(int argc, char* argv[]) {
     // Hello
-    printf("Bonjour");
+    printf("Bonjour\n");
+    fflush(stdout);
 
     // Initialize char
-    char c;
+    char a;
+    char b;
+    // buffers
+    char buffE[256];
+    char buffK[256];
 
-    // strcpy()
-    // sprintf()
-    // strlen()
+    char* sensorNames[] = {"thermometer1", "thermometer2", "thermometer3"};
 
-
-    // // Loop for read argument
-    // for(int i = 0; i < argc; i++) {
-    //     printf("%s\n", argv[i]);
-    // }
 
     // Loop for read
-    while(read(0, &c, 1) == 1) {
+    while(read(0, &a, 1) == 1) {
         // Write in std 1
-        write(1, &c, 1);
+        //write(1, &a, 1);
 
-        // Loop for read argument
-        for(int i = 0; i < argc; i++) {
-            if(argv[i] == 'O') {
-                printf("C OK");
-            }
-        }
+        int sensorId = rand();
 
+        if(a == 'K') {
+        
+            char* sensorName = sensorNames[rand()%(2-0 + 1)];
+            int value = rand()%(50-0 + 1);
+            int minValue = rand()%(50-0 + 1);
+            int meanValue = rand()%(50-0 + 1);
+            int maxValue = rand()%(50-0 + 1);
+            sprintf(buffK, "%d:%s:%d:%d:%d:%d\n", sensorId, sensorName, value, minValue, meanValue, maxValue);
+            write(1, buffK, strlen(buffK));
+
+        }else if (a == 'E'){
+            int errorCode = rand()%(1000-0 + 1);
+            sprintf(buffE, "%d:%d:error occurred\n", sensorId, errorCode);
+            write(2, buffE, strlen(buffE));
+        } 
+        fflush(stdout);
     }
-
     return 0;
 }

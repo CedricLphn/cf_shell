@@ -1,3 +1,4 @@
 #!/bin/zsh
 
-./genTick $1 | ./genSensorData
+whoami
+./genTick $1 | ./genSensorData ":" 1>> $2 2>> $3 
