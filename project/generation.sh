@@ -11,4 +11,3 @@ fi
 
 whoami
 ./genTick $interval | ./genSensorData 2>> $dir/$errors | stdbuf -oL cut -d : -f1,2,3,6 1>> $dir/$logs
-#./genTick $interval | ./genSensorData | cut -d ':' -c1
