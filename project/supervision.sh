@@ -17,8 +17,10 @@ message="none";
 # set (not) exceed for each files
 # writing final message
 # kill generation and child processes
-# creating status file
+# creating temporary status file
+# create temporary sorted errors/info logs
 # compressing the dir
+# delete temporary files
 # displaying the final message
 if [ $username = "leprohoncedric" ] || [ $username = "flow2dot0-osx" ] && [ -d "$dir" ]
 then
@@ -43,8 +45,8 @@ then
             wc -l $dir/$3 | awk '{ print $1 }' >> "status.log"
             wc -l $dir/$4| awk '{ print $1 }' >> "status.log"
             # sort logs here
-
-            sort $dir/$errors >> $errors
+            sed 's/Bonjour//g' $dir/$logs | sort -n > $logs
+            sort -n $dir/$errors >> $errors
             zip -r $(date '+%Y-%m-%d-%H-%M-%S').zip $logs $errors status.log
             rm status.log $logs $errors
         fi
@@ -56,8 +58,8 @@ then
             wc -l $dir/$3 | awk '{ print $1 }' >> "status.log"
             wc -l $dir/$4| awk '{ print $1 }' >> "status.log"
             # sort logs here
-
-            sort $dir/$errors >> $errors
+            sed 's/Bonjour//g' $dir/$logs | sort -n > $logs
+            sort -n $dir/$errors >> $errors
             zip -r $(date '+%Y-%m-%d-%H-%M-%S').zip $logs $errors status.log
             rm status.log $logs $errors
         fi
