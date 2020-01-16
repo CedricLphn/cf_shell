@@ -9,8 +9,21 @@ size=$5
 username=$(whoami)
 message="none";
 
+# BONUS switching to genTickV2
+file_version=$6
+if [ $file_version = '2' ]
+then
+    file_version='V2';
+else
+    file_version='';
+fi
+
 # cleaning old instances
-killall genTick
+if [ $(pidof genTick) ] || [ $(pidof genTickV2) ]
+then
+    killall genTick
+    killall genTickV2
+fi
 
 # checking users
 # checking if logs exists
@@ -18,17 +31,17 @@ killall genTick
 # get size of files
 # set (not) exceed for each files
 # writing final message
-# stop generation and child processes
+# interrup generation and child processes
 # creating temporary status file
 # create temporary sorted errors/info logs
 # compressing the dir
 # delete temporary files
 # cleaning logs and errors files
-# relaunch generation and child processes
-if [ $username = "leprohoncedric" ] || [ $username = "flow2dot0-osx" ] && [ -d "$dir" ]
+# continue generation and child processes
+if [ $username = "leprohoncedric" ] || [ $username = "flow2dot0-osx" ]
 then
     echo "INFO: current user accepted."
-     ./generation.sh $interval $2 $logs $errors &
+     ./generation.sh $interval $2 $logs $errors $file_version &
     if [ ! -d "$dir" ];
     then
       echo "WARNING: Logs not found."
@@ -63,7 +76,7 @@ then
                 sleep 2
             fi
 
-            message="[ logs file : [ size :      $actualsize_logs, limit : $logs_exceed_status  ] ] [ errors file : [ size :        $actualsize_errors, limit : $errors_exceed_status ] ]"
+            message="[ logs file : [ size : $actualsize_logs, limit : $logs_exceed_status ] ], [ errors file : [ size : $actualsize_errors, limit : $errors_exceed_status ] ]"
         done
     fi
 fi
