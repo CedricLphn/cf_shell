@@ -8,7 +8,7 @@
 
 int main(int argc, char* argv[]) {
     // welcome msg
-    printf("Welcome & have a nice experience using our small app\n");
+    printf("Bonjour\n");
     fflush(stdout);
 
     // Initialize char
