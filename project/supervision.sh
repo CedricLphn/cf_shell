@@ -8,22 +8,23 @@ interval=$1
 size=$5
 username=$(whoami)
 message="none";
+
+# cleaning old instances
+killall genTick
+
 # checking users
 # checking if logs exists
 # checking if generation.sh is running
 # get size of files
 # set (not) exceed for each files
 # writing final message
-# kill generation and child processes
+# stop generation and child processes
 # creating temporary status file
 # create temporary sorted errors/info logs
 # compressing the dir
 # delete temporary files
-# displaying the final message
-
-# cleaning instances
-killall genTick
-
+# cleaning logs and errors files
+# relaunch generation and child processes
 if [ $username = "leprohoncedric" ] || [ $username = "flow2dot0-osx" ] && [ -d "$dir" ]
 then
     echo "INFO: current user accepted."
@@ -44,13 +45,7 @@ then
             errors_exceed_status="not exceeded"
             if [ $actualsize_logs -ge $minimumsize ] || [ $actualsize_errors -ge $minimumsize ]
             then
-                # kill genTick before archiving
-
-#                killall genTick
-
                 kill -l STOP `pgrep genTick` # interrupt the process
-
-
                 if [ $actualsize_logs -ge $minimumsize ]; then
                     logs_exceed_status="exceeded"
                 elif [ $actualsize_errors -ge $minimumsize ]; then
@@ -62,12 +57,9 @@ then
                 sed 's/Bonjour//g' $dir/$logs | sort -n > $logs
                 sort -n $dir/$errors >> $errors
                 zip -r $(date '+%Y-%m-%d-%H-%M-%S').zip $logs $errors status.log
-                rm -rf status.log $logs $errors $dir/$logs $dir/$errors
-
+                rm -rf status.log $logs $errors
+                echo "" > $dir/$logs && echo "" > $dir/$errors
                 kill -l CONT `pgrep genTick` # relaunch the process
-
-#                ./generation.sh $interval $2 $logs $errors &
-                # Waiting generation.sh for re-creating necessary logs
                 sleep 2
             fi
 
@@ -75,9 +67,9 @@ then
         done
     fi
 fi
+
+# displaying the final message
 if [ ! $message = "none" ]
 then
     echo $message
 fi
-
-#./supervision.sh $interval $2 $logs $errors $size
