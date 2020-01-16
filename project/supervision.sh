@@ -19,11 +19,11 @@ then
     echo "INFO: current user accepted."
     if [ ! -d "$dir" ];
     then
-      echo "WARNING: Logs not found."
-#      find a way 
-    elif [ $pid ]
+      echo "WARNING: Logs not found."      
+    elif ! pgrep -x "genTick" > /dev/null && ! pgrep -x "genSensorData" > /dev/null
       then
-          echo "WARNING: generation.sh is not running."
+            echo "WARNING: generation.sh is not running."
+            exit 1
     else
         minimumsize=$size
         actualsize_logs=$(wc -c <"$dir/$logs")
