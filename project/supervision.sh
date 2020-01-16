@@ -33,11 +33,13 @@ then
         if [ $actualsize_logs -ge $minimumsize ]
         then
             logs_exceed_status="exceeded"
+            killall genTick
         fi
 
         if [ $actualsize_errors -ge $minimumsize ]
         then
             errors_exceed_status="exceeded"
+            killall genTick
         fi
         message="[ logs file : [ size :      $actualsize_logs, limit : $logs_exceed_status  ] ] [ errors file : [ size :        $actualsize_errors, limit : $errors_exceed_status ] ]"
     fi
