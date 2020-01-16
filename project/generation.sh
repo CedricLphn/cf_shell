@@ -11,16 +11,11 @@ if [ ! -d "$dir" ]; then
   mkdir -p $dir
 fi
 
-<<<<<<< Updated upstream
 echo $username
 
-if [ $username = "leprohoncedric" ]
+if [ $username = "leprohoncedric" ] || [ $username = "flow2dot0-osx" ]
 then
     ./genTick $interval | ./genSensorData 2>> $dir/$errors | stdbuf -oL cut -d : -f1,2,3,6 1>> $dir/$logs
 else
     echo "Unauthorized access. Shutdown."
 fi
-=======
-whoami
-./genTick $interval | ./genSensorData 2>> $dir/$errors | stdbuf -oL cut -d : -f1,2,3,6 1>> $dir/$logs
->>>>>>> Stashed changes
