@@ -1,5 +1,6 @@
 #!/bin/zsh
 
+# all arguments
 dir="$HOME/romu/$2"
 logs=$3
 errors=$4
@@ -7,9 +8,18 @@ interval=$1
 size=$5
 
 username=$(whoami)
-
 message="none";
 
+# checking users
+# checking if logs exists
+# checking if generation.sh is running
+# get size of files
+# set (not) exceed for each files
+# writing final message
+# kill generation and child processes
+# creating status file
+# compressing the dir
+# displaying the final message
 if [ $username = "leprohoncedric" ] || [ $username = "flow2dot0-osx" ] && [ -d "$dir" ]
 then
     echo "INFO: current user accepted."
@@ -60,5 +70,3 @@ then
     echo $message
 
 fi
-
-#ps -o pid,ppid,pgid,gid,sess,command

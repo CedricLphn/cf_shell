@@ -2,6 +2,8 @@
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
+#include <signal.h>
+
 
 
 int main(int argc, char* argv[]) {
@@ -43,5 +45,7 @@ int main(int argc, char* argv[]) {
         } 
         fflush(stdout);
     }
+
     return 0;
 }
+
