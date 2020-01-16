@@ -9,7 +9,10 @@ size=$5
 username=$(whoami)
 
 message="none";
-dupe_script=$(ps -ef | grep "generation.sh" | grep -v grep | wc -l)
+if pidof generation
+then
+    pid=$(pidof generation)
+fi
 
 if [ $username = "leprohoncedric" ] || [ $username = "flow2dot0-osx" ] && [ -d "$dir" ]
 then
@@ -17,7 +20,8 @@ then
     if [ ! -d "$dir" ];
     then
       echo "WARNING: Logs not found."
-    elif [ ! ${dupe_script} -gt 3 ]
+#      find a way 
+    elif [ $pid ]
       then
           echo "WARNING: generation.sh is not running."
     else
@@ -42,5 +46,6 @@ fi
 if [ ! $message = "none" ]
 then
     echo $message
+
 fi
 
