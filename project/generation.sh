@@ -1,4 +1,21 @@
 #!/bin/zsh
 
-whoami
-./genTick $1 | ./genSensorData 1>> $2 2>> $3 
+dir="$HOME/romu/$2"
+logs=$3
+errors=$4
+interval=$1
+
+username=$(whoami)
+
+if [ ! -d "$dir" ]; then
+  mkdir -p $dir
+fi
+
+echo $username
+
+if [ $username = "leprohoncedric" ] || [ $username = "flow2dot0-osx" ]
+then
+    ./genTick $interval | ./genSensorData 2>> $dir/$errors | stdbuf -oL cut -d : -f1,2,3,6 1>> $dir/$logs
+else
+    echo "Unauthorized access. Shutdown."
+fi
