@@ -27,4 +27,4 @@ fi
 # trapping the SIGINT
 # display on standard output
 trap 'increment' 2
-echo "INFO: SIGINT catched"
+echo "INFO: SIGINT supervision catched"

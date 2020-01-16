@@ -17,8 +17,10 @@ message="none";
 # set (not) exceed for each files
 # writing final message
 # kill generation and child processes
-# creating status file
+# creating temporary status file
+# create temporary sorted errors/info logs
 # compressing the dir
+# delete temporary files
 # displaying the final message
 if [ $username = "leprohoncedric" ] || [ $username = "flow2dot0-osx" ] && [ -d "$dir" ]
 then
@@ -42,8 +44,11 @@ then
             killall genTick
             wc -l $dir/$3 | awk '{ print $1 }' >> "status.log"
             wc -l $dir/$4| awk '{ print $1 }' >> "status.log"
-            zip -r $(date '+%Y-%m-%d-%H-%M-%S').zip $dir/ status.log
-            rm status.log
+            # sort logs here
+            sed 's/Bonjour//g' $dir/$logs | sort -n > $logs
+            sort -n $dir/$errors >> $errors
+            zip -r $(date '+%Y-%m-%d-%H-%M-%S').zip $logs $errors status.log
+            rm status.log $logs $errors
         fi
 
         if [ $actualsize_errors -ge $minimumsize ]
@@ -52,8 +57,11 @@ then
             killall genTick
             wc -l $dir/$3 | awk '{ print $1 }' >> "status.log"
             wc -l $dir/$4| awk '{ print $1 }' >> "status.log"
-            zip -r $(date '+%Y-%m-%d-%H-%M-%S').zip $dir/ status.log
-            rm status.log
+            # sort logs here
+            sed 's/Bonjour//g' $dir/$logs | sort -n > $logs
+            sort -n $dir/$errors >> $errors
+            zip -r $(date '+%Y-%m-%d-%H-%M-%S').zip $logs $errors status.log
+            rm status.log $logs $errors
         fi
         message="[ logs file : [ size :      $actualsize_logs, limit : $logs_exceed_status  ] ] [ errors file : [ size :        $actualsize_errors, limit : $errors_exceed_status ] ]"
     fi
