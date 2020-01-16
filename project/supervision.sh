@@ -6,7 +6,6 @@ logs=$3
 errors=$4
 interval=$1
 size=$5
-
 username=$(whoami)
 message="none";
 # checking users
@@ -21,13 +20,14 @@ message="none";
 # compressing the dir
 # delete temporary files
 # displaying the final message
+
 if [ $username = "leprohoncedric" ] || [ $username = "flow2dot0-osx" ] && [ -d "$dir" ]
 then
     echo "INFO: current user accepted."
      ./generation.sh $interval $2 $logs $errors &
     if [ ! -d "$dir" ];
     then
-      echo "WARNING: Logs not found."      
+      echo "WARNING: Logs not found."
     elif [ $(ps -ef | grep generation | wc -l) != 2 ]
       then
             echo "WARNING: generation.sh is not running."
@@ -64,11 +64,9 @@ then
         done
     fi
 fi
-
 if [ ! $message = "none" ]
 then
     echo $message
-
 fi
 
 #./supervision.sh $interval $2 $logs $errors $size
