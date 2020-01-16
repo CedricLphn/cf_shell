@@ -20,7 +20,7 @@ then
     if [ ! -d "$dir" ];
     then
       echo "WARNING: Logs not found."      
-    elif ! pgrep -x "genTick" > /dev/null && ! pgrep -x "genSensorData" > /dev/null
+    elif [ $(ps -ef | grep generation | wc -l) != 2 ]
       then
             echo "WARNING: generation.sh is not running."
             exit 1
@@ -49,3 +49,4 @@ then
 
 fi
 
+#ps -o pid,ppid,pgid,gid,sess,command
