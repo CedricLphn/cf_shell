@@ -9,10 +9,6 @@ size=$5
 username=$(whoami)
 
 message="none";
-if pidof generation
-then
-    pid=$(pidof generation)
-fi
 
 if [ $username = "leprohoncedric" ] || [ $username = "flow2dot0-osx" ] && [ -d "$dir" ]
 then
@@ -34,12 +30,14 @@ then
         then
             logs_exceed_status="exceeded"
             killall genTick
+            zip -r $(date '+%Y-%m-%d %H:%M:%S').zip $dir/
         fi
 
         if [ $actualsize_errors -ge $minimumsize ]
         then
             errors_exceed_status="exceeded"
             killall genTick
+            zip -r $(date '+%Y-%m-%d %H:%M:%S').zip $dir/
         fi
         message="[ logs file : [ size :      $actualsize_logs, limit : $logs_exceed_status  ] ] [ errors file : [ size :        $actualsize_errors, limit : $errors_exceed_status ] ]"
     fi
