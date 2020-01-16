@@ -13,16 +13,16 @@ Placez-vous au niveau du répertoire de la racine de l'application "cf_shell"
 
 ## Run
 
-    ./supervision.sh [interval en ms] [dossier des logs] [log sortie stdout] [log sortie stderr] [taille maximal en octet]
+    ./supervision.sh [interval en ms] [dossier des logs] [log sortie stdout] [log sortie stderr] [taille maximal en octet] [Version of genTick]
 
 ### Exemple 
-    ./supervision.sh 1000 logs infos.logs errors.logs 1024
+    ./supervision.sh 1000 logs infos.logs errors.logs 1024 2
 
 ## Versions
 
-**Dernière version stable :** 1.0.0
+**Dernière version stable :** 1.1
 
-**Dernière version :** 1.0.0
+**Dernière version :** 1.1
 
 ## Board
 
