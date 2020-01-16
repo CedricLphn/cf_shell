@@ -1,5 +1,6 @@
 #!/bin/zsh
 
+# all arguments
 dir="$HOME/romu/$2"
 logs=$3
 errors=$4
@@ -7,9 +8,20 @@ interval=$1
 size=$5
 
 username=$(whoami)
-
 message="none";
 
+# checking users
+# checking if logs exists
+# checking if generation.sh is running
+# get size of files
+# set (not) exceed for each files
+# writing final message
+# kill generation and child processes
+# creating temporary status file
+# create temporary sorted errors/info logs
+# compressing the dir
+# delete temporary files
+# displaying the final message
 if [ $username = "leprohoncedric" ] || [ $username = "flow2dot0-osx" ] && [ -d "$dir" ]
 then
     echo "INFO: current user accepted."
@@ -32,8 +44,11 @@ then
             killall genTick
             wc -l $dir/$3 | awk '{ print $1 }' >> "status.log"
             wc -l $dir/$4| awk '{ print $1 }' >> "status.log"
-            zip -r $(date '+%Y-%m-%d-%H-%M-%S').zip $dir/ status.log
-            rm status.log
+            # sort logs here
+            sed 's/Bonjour//g' $dir/$logs | sort -n > $logs
+            sort -n $dir/$errors >> $errors
+            zip -r $(date '+%Y-%m-%d-%H-%M-%S').zip $logs $errors status.log
+            rm status.log $logs $errors
         fi
 
         if [ $actualsize_errors -ge $minimumsize ]
@@ -42,8 +57,11 @@ then
             killall genTick
             wc -l $dir/$3 | awk '{ print $1 }' >> "status.log"
             wc -l $dir/$4| awk '{ print $1 }' >> "status.log"
-            zip -r $(date '+%Y-%m-%d-%H-%M-%S').zip $dir/ status.log
-            rm status.log
+            # sort logs here
+            sed 's/Bonjour//g' $dir/$logs | sort -n > $logs
+            sort -n $dir/$errors >> $errors
+            zip -r $(date '+%Y-%m-%d-%H-%M-%S').zip $logs $errors status.log
+            rm status.log $logs $errors
         fi
         message="[ logs file : [ size :      $actualsize_logs, limit : $logs_exceed_status  ] ] [ errors file : [ size :        $actualsize_errors, limit : $errors_exceed_status ] ]"
     fi
@@ -54,5 +72,3 @@ then
     echo $message
 
 fi
-
-#ps -o pid,ppid,pgid,gid,sess,command
