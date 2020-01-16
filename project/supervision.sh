@@ -21,6 +21,7 @@ message="none";
 # delete temporary files
 # displaying the final message
 
+
 if [ $username = "leprohoncedric" ] || [ $username = "flow2dot0-osx" ] && [ -d "$dir" ]
 then
     echo "INFO: current user accepted."
@@ -42,7 +43,12 @@ then
             if [ $actualsize_logs -ge $minimumsize ] || [ $actualsize_errors -ge $minimumsize ]
             then
                 # kill genTick before archiving
-                killall genTick
+
+#                killall genTick
+
+                kill -l STOP `pgrep genTick` # interrupt the process
+
+
                 if [ $actualsize_logs -ge $minimumsize ]; then
                     logs_exceed_status="exceeded"
                 elif [ $actualsize_errors -ge $minimumsize ]; then
@@ -55,7 +61,10 @@ then
                 sort -n $dir/$errors >> $errors
                 zip -r $(date '+%Y-%m-%d-%H-%M-%S').zip $logs $errors status.log
                 rm -rf status.log $logs $errors $dir/$logs $dir/$errors
-                ./generation.sh $interval $2 $logs $errors &
+
+                kill -l CONT `pgrep genTick` # relaunch the process
+
+#                ./generation.sh $interval $2 $logs $errors &
                 # Waiting generation.sh for re-creating necessary logs
                 sleep 2
             fi
