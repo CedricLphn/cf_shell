@@ -32,8 +32,11 @@ then
             killall genTick
             wc -l $dir/$3 | awk '{ print $1 }' >> "status.log"
             wc -l $dir/$4| awk '{ print $1 }' >> "status.log"
-            zip -r $(date '+%Y-%m-%d-%H-%M-%S').zip $dir/ status.log
-            rm status.log
+            # sort logs here
+
+            sort $dir/$errors >> $errors
+            zip -r $(date '+%Y-%m-%d-%H-%M-%S').zip $logs $errors status.log
+            rm status.log $logs $errors
         fi
 
         if [ $actualsize_errors -ge $minimumsize ]
@@ -42,8 +45,11 @@ then
             killall genTick
             wc -l $dir/$3 | awk '{ print $1 }' >> "status.log"
             wc -l $dir/$4| awk '{ print $1 }' >> "status.log"
-            zip -r $(date '+%Y-%m-%d-%H-%M-%S').zip $dir/ status.log
-            rm status.log
+            # sort logs here
+
+            sort $dir/$errors >> $errors
+            zip -r $(date '+%Y-%m-%d-%H-%M-%S').zip $logs $errors status.log
+            rm status.log $logs $errors
         fi
         message="[ logs file : [ size :      $actualsize_logs, limit : $logs_exceed_status  ] ] [ errors file : [ size :        $actualsize_errors, limit : $errors_exceed_status ] ]"
     fi
