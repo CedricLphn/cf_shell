@@ -21,6 +21,8 @@ message="none";
 # delete temporary files
 # displaying the final message
 
+# cleaning instances
+killall genTick
 
 if [ $username = "leprohoncedric" ] || [ $username = "flow2dot0-osx" ] && [ -d "$dir" ]
 then
