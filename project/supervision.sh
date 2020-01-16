@@ -30,14 +30,20 @@ then
         then
             logs_exceed_status="exceeded"
             killall genTick
-            zip -r $(date '+%Y-%m-%d %H:%M:%S').zip $dir/
+            wc -l $dir/$3 | awk '{ print $1 }' >> "status.log"
+            wc -l $dir/$4| awk '{ print $1 }' >> "status.log"
+            zip -r $(date '+%Y-%m-%d-%H-%M-%S').zip $dir/ status.log
+            rm status.log
         fi
 
         if [ $actualsize_errors -ge $minimumsize ]
         then
             errors_exceed_status="exceeded"
             killall genTick
-            zip -r $(date '+%Y-%m-%d %H:%M:%S').zip $dir/
+            wc -l $dir/$3 | awk '{ print $1 }' >> "status.log"
+            wc -l $dir/$4| awk '{ print $1 }' >> "status.log"
+            zip -r $(date '+%Y-%m-%d-%H-%M-%S').zip $dir/ status.log
+            rm status.log
         fi
         message="[ logs file : [ size :      $actualsize_logs, limit : $logs_exceed_status  ] ] [ errors file : [ size :        $actualsize_errors, limit : $errors_exceed_status ] ]"
     fi
